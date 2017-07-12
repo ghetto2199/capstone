@@ -47241,6 +47241,8 @@ static struct insn_reg insn_regs_att[] = {
 	{ X86_INSW, X86_REG_DX },
 	{ X86_INSL, X86_REG_DX },
 
+	{ X86_MOV16ao16, X86_REG_AX },
+
 	{ X86_MOV32ao32, X86_REG_EAX },
 	{ X86_MOV64o64a, X86_REG_RAX },
 
@@ -47351,12 +47353,11 @@ static struct insn_reg insn_regs_intel[] = {
 	{ X86_OUTSW, X86_REG_DX },
 	{ X86_OUTSL, X86_REG_DX },
 
+	{ X86_MOV8o8a, X86_REG_AL },   // a02857887c = mov al, byte ptr[0x7c885728]
 	{ X86_MOV32o32a, X86_REG_EAX },
 	{ X86_MOV16o16a, X86_REG_AX },
 	{ X86_MOV64o64a, X86_REG_RAX },
 	{ X86_MOV64o32a, X86_REG_EAX },
-
-	{ X86_MOV16ao16, X86_REG_AX },    // 16-bit A1 1020                  // mov     ax, word ptr [0x2010]
 
 	{ X86_MOV64ao32, X86_REG_RAX },   // 64-bit 48 8B04 10203040         // mov     rax, qword ptr [0x40302010]
 
