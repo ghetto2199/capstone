@@ -240,6 +240,8 @@ static name_map insn_update_flgs[] = {
 	{ ARM_INS_SUB, "subs" },
 	{ ARM_INS_UMLAL, "umlals" },
 	{ ARM_INS_UMULL, "umulls" },
+
+	{ ARM_INS_UADD8, "uadd8" },
 };
 
 void ARM_post_printer(csh ud, cs_insn *insn, char *insn_asm, MCInst *mci)
@@ -1155,7 +1157,7 @@ static void printPostIdxRegOperand(MCInst *MI, unsigned OpNum, SStream *O)
 static void printPostIdxImm8s4Operand(MCInst *MI, unsigned OpNum, SStream *O)
 {
 	MCOperand *MO = MCInst_getOperand(MI, OpNum);
-	unsigned Imm = (unsigned int)MCOperand_getImm(MO);
+	int Imm = (int)MCOperand_getImm(MO);
 
 	if (((Imm & 0xff) << 2) > HEX_THRESHOLD) {
 		SStream_concat(O, "#%s0x%x", ((Imm & 256) ? "" : "-"), ((Imm & 0xff) << 2));
@@ -1164,7 +1166,7 @@ static void printPostIdxImm8s4Operand(MCInst *MI, unsigned OpNum, SStream *O)
 	}
 
 	if (MI->csh->detail) {
-		int v = (Imm & 256) ? ((Imm & 0xff) << 2) : -((((int)Imm) & 0xff) << 2);
+		int v = (Imm & 256) ? ((Imm & 0xff) << 2) : -((Imm & 0xff) << 2);
 		MI->flat_insn->detail->arm.operands[MI->flat_insn->detail->arm.op_count].type = ARM_OP_IMM;
 		MI->flat_insn->detail->arm.operands[MI->flat_insn->detail->arm.op_count].imm = v;
 		MI->flat_insn->detail->arm.op_count++;
