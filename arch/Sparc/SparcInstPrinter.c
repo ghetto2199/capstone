@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #include "SparcInstPrinter.h"
 #include "../../MCInst.h"
@@ -260,6 +261,11 @@ static void printOperand(MCInst *MI, int opNum, SStream *O)
 				Imm = SignExtend32(Imm, 16);
 				Imm = (uint32_t)MI->address + Imm * 4;
 				break;
+		}
+		
+		if (Imm == INT_MIN) {
+			// printf("ERROR: invalid Imm value\n");
+			return;
 		}
 
 		if (Imm >= 0) {
